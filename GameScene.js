@@ -9,6 +9,7 @@ class GameScene extends Phaser.Scene {
       this.load.image('turbo_nave', 'assets/turbo.png')
       this.load.image('plataforma_tijolo', 'assets/tijolos.png')
       this.load.image('moeda', 'assets/moeda.png')
+      this.load.image('board', 'assets/board.png')
     }
   
     create() {
@@ -23,7 +24,7 @@ class GameScene extends Phaser.Scene {
       this.teclado = this.input.keyboard.createCursorKeys()
   
       this.plataforma = this.physics.add.staticImage(150, 450, 'plataforma_tijolo')
-      this.plataforma2 = this.physics.add.staticImage(470, 170, 'plataforma_tijolo')
+      this.plataforma2 = this.physics.add.staticImage(530, 170, 'plataforma_tijolo')
   
       this.physics.add.collider(this.alien, this.plataforma)
       this.physics.add.collider(this.alien, this.plataforma2)
@@ -33,20 +34,24 @@ class GameScene extends Phaser.Scene {
       this.moeda.setBounce(0.7)
       this.physics.add.collider(this.moeda, this.plataforma)
       this.physics.add.collider(this.moeda, this.plataforma2)
-  
+
+      this.physics.add.staticImage(120, 80, 'board')
+
       this.pontuacao = 0
-      this.placar = this.add.text(50, 50, 'Coins: ' + this.pontuacao, {
+      this.placar = this.add.text(115, 52, this.pontuacao, {
         fontFamily: 'Poppins',
         fontSize: '45px',
-        fill: '#FFB200'
+        fill: '#FFFFFF'
       })
+
+      this.physics.add.staticImage(80, 78, 'moeda')
   
       this.physics.add.overlap(this.alien, this.moeda, () => {
         this.moeda.setVisible(false)
         let posicaoMoeda_Y = Phaser.Math.RND.between(50, alturaJogo - 100)
         this.moeda.setPosition(posicaoMoeda_Y, 100)
         this.pontuacao += 1
-        this.placar.setText('Coins: ' + this.pontuacao)
+        this.placar.setText(this.pontuacao)
         this.moeda.setVisible(true)
       })
     }
